@@ -39,7 +39,7 @@ int main(int argc,char **argv) {
 
     while (count<size) {
         count++;
-        c = getc(fp);
+        c = (unsigned char)getc(fp);
         column += 6;
 
         if (column >= max_column) {
