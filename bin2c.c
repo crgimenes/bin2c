@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <libgen.h>
 
 static const unsigned int max_column = 78;
 static const unsigned int tab_size = 8;
@@ -18,6 +19,7 @@ int main(int argc,char **argv) {
     size_t count;
     size_t size;
     FILE *fp;
+    char *name;
 
     if (argc!=2) {
         printf("Usage: bin2c file\n");
@@ -33,9 +35,17 @@ int main(int argc,char **argv) {
     size = fsize(fp);
     count = 0;
     column = 0;
+    name = basename(argv[1]);
 
-    printf("static const size_t size = %lu;\n",size);
-    printf("static const unsigned char data[] = {\n\t");
+    for (int i=sizeof(name); i--;) {
+        char aux = name[i];
+        if (aux == '.') {
+            name[i] = '_';
+        }
+    }
+
+    printf("static const size_t %s_size = %lu;\n",name,size);
+    printf("static const unsigned char %s_data[] = {\n\t",name);
 
     while (count<size) {
         count++;
