@@ -16,10 +16,12 @@ size_t fsize(FILE *fd) {
 int main(int argc,char **argv) {
     unsigned char c;
     unsigned int column;
+    unsigned int i;
     size_t count;
     size_t size;
     FILE *fp;
     char *name;
+    char aux_char;
 
     if (argc!=2) {
         printf("Usage: bin2c file\n");
@@ -32,14 +34,15 @@ int main(int argc,char **argv) {
         exit(1);
     }
 
-    size = fsize(fp);
     count = 0;
     column = 0;
+    size = fsize(fp);
     name = basename(argv[1]);
 
-    for (int i=sizeof(name); i--;) {
-        char aux = name[i];
-        if (aux == '.') {
+    i=sizeof(name);
+    while (i--) {
+        aux_char = name[i];
+        if (aux_char == '.') {
             name[i] = '_';
         }
     }
@@ -68,4 +71,3 @@ int main(int argc,char **argv) {
     printf("\n};\n");
     return 0;
 }
-
